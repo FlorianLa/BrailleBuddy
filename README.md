@@ -6,7 +6,7 @@ BrailleBuddy is a tangible user interface supporting children with visual impair
 
 ### Supported Languages
 
-German ("Vollbraille"), English (under construction) 
+German ("Vollbraille"), English **(under construction)** 
 
 ### Hardware
 

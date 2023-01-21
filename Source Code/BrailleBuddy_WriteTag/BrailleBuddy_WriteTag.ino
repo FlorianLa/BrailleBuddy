@@ -55,9 +55,9 @@ void loop() {
       - game mode: a number from 1 - 3
         only set this number on game mode cards! 
         Lets the BrailleBuddy Box know, which game the player wants to play
-        1: "Worte Nachlegen" / Copy Words
-        2: "Purzelwörter" / Scrambled Words
-        3: "Worträtsel" / Word Riddle
+        1: Copy Words
+        2: Word Scramble
+        3: Word Riddle
       - audio: 
           track: index of the audio file inside the folder
           folder: index of the folder sored od the sd card
@@ -69,14 +69,14 @@ void loop() {
     */
 
     /*The seven following rows store the character information (up to 7 braille characters).
-      Braille characters with more than one letter, e.g. "sch" are stored in one row.
+      Braille characters with more than one letter, e.g. "sh" are stored in one row.
     */
 
     // Adjust the buffer to match the character or word you want to store on the tag
-    // Buffer Example for a single braille character 'D'
+    // Buffer Example for a single braille character 'd'
     byte buffer[NR_OF_ROWS][NR_OR_COLUMNS] = {
-      {0, 2, 3, 1}, // game mode, track, folder, occurance
-      {0, 0, 0, 'D'},
+      {0, 29, 2, 1}, // game mode, track, folder, occurance
+      {0, 0, 0, 'd'},
       {0, 0, 0, 0},
       {0, 0, 0, 0},
       {0, 0, 0, 0},
@@ -85,16 +85,26 @@ void loop() {
       {0, 0, 0, 0}
     };
 
-    // Buffer Example for the german word "Ameise" = ant
+    // Buffer Example for the word "Ameise" / "ant"
     /*byte buffer[NR_OF_ROWS][NR_OR_COLUMNS] = {
-      {1, 16, 6, 2}, // game mode, track, folder, occurance
+      {1, 16, 6, 0}, // game mode, track, folder, occurance
       {0, 0, 0, 'A'},
-      {0, 0, 0, 'm},
+      {0, 0, 0, 'm'},
       {0, 0, 'e', 'i'},
       {0, 0, 0, 's'},
       {0, 0, 0, 'e'},
       {0, 0, 0, 0},
-      {0, 0, 0, 0} // track and folder
+      {0, 0, 0, 0}
+    };*/
+    /*byte buffer[NR_OF_ROWS][NR_OR_COLUMNS] = {
+      {1, 0, 6, 0}, // game mode, track, folder, occurance
+      {0, 0, 0, 'a'},
+      {0, 0, 0, 'n'},
+      {0, 0, 0, 't'},
+      {0, 0, 0, 0},
+      {0, 0, 0, 0},
+      {0, 0, 0, 0},
+      {0, 0, 0, 0}
     };*/
 
     byte page = 6;

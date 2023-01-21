@@ -14,19 +14,19 @@
 
 //====================== Enums for GAME MODES =====================================
 enum GameModes {
-  KEIN_SPIEL,
-  WORTE_NACHLEGEN,
-  PURZELWOERTER,
-  WORTRAETSEl
+  NO_GAME,
+  COPY_WORD,
+  WORD_SCRAMBLE,
+  WORD_RIDDLE
 };
 
 enum GameSubModes {
   NO_SUB,
-  WORTE_NACHLEGEN_BEENDET,
-  PURZELWOERTER_BUCHSTABEN_ABLEGEN,
-  PURZELWOERTER_BUCHSTABEN_SORTIEREN,
-  PURZELWOERTER_BEENDET,
-  WORTRAETSEl_BEENDET
+  COPY_WORD_FINISHED,
+  WORD_SCRAMBLE_PLACE_LETTERS,
+  WORD_SCRAMBLE_SORT_LETTERS,
+  WORD_SCRAMBLE_FINISHED,
+  WORD_RIDDLE_FINISHED
 };
 
 //====================== Custom Type Definitions ===================================
@@ -62,6 +62,12 @@ typedef struct {
 
 //=================================== Audio Feedback =====================================
 
+// index of first lowercase letter in the letter audio folder **GERMAN VERSION**
+#define INDEX_OF_FIRST_LOWERCASE_LETTER 37
+
+// index of first lowercase letter in the letter audio folder **ENGLISH VERSION**
+// #define INDEX_OF_FIRST_LOWERCASE_LETTER 26
+
 HardwareSerial mySoftwareSerial(1);
 DFRobotDFPlayerMini myDFPlayer;
 
@@ -85,6 +91,39 @@ byte currentBusyValue;
 // is used to check whether the busy value has changed
 byte prevBusyValue;
 
+
+Audio hello = {1, 0};
+Audio evaluationCorrectFanfare = {1, 4};
+Audio copyWordsCapCharMissing = {1, 12};
+Audio gameCardRemoved = {1, 13};
+
+Audio copyWordsIntro = {3, 0};
+
+Audio welcomeToWordScramble = {4, 0};
+Audio wordScrambleIntro = {4, 1};
+Audio wordScrambleLettersWerePlacedInCorrectOrder = {4, 2};
+Audio wordScrambleHowToStartNewGameRound = {4, 3};
+Audio wordScrambleSolution = {4, 4};
+
+Audio wordRiddleWelcome = {5, 0};
+Audio wordRiddleIntro1 = {5, 1};
+Audio wordRiddleIntro2 = {5, 2};
+Audio wordRiddleBrailleCharacters = {5, 9};
+Audio wordRiddleIncludingLeadingCapsChar = {5, 10};
+Audio wordRiddleInstruction = {5, 11};
+Audio wordRiddleNotIncluded = {5, 12};
+Audio wordRiddleButAtAnotherPosition = {5, 13};
+Audio wordRiddleAndRightPosition = {5, 14};
+Audio wordRiddleWordFound = {5, 15};
+Audio wordRiddleIncludedOnce = {5, 16};
+Audio wordRiddleIncludedTwice = {5, 17};
+Audio wordRiddleIncludedThreeTimes = {5, 18};
+Audio wordRiddleIncludedFourTimes = {5, 19};
+Audio wordRiddleOneUppercase = {5, 20};
+Audio wordRiddleButLowercaseIs = {5, 21};
+Audio wordRiddleButUppercaseIs = {5, 22};
+Audio wordRiddleIsIncluded = {5, 23};
+
 //=================================== RFID Readers =====================================
 
 MFRC522 mfrc522[NR_OF_READERS]; // initialize the RFID reader instances 
@@ -106,10 +145,10 @@ char denom = '-';
 //=================================== Photoresistors =====================================
 
 // holds information about the current light situation at each letter slot
-int fotovalues[NR_OF_CHAR_POS] = {0, 0, 0, 0, 0, 0, 0};
+int photovalues[NR_OF_CHAR_POS] = {0, 0, 0, 0, 0, 0, 0};
 // stores the initial light situation read at each letter slot at the initial setup
 // to decide whether the light situation has changed
-int initialFotovalues[NR_OF_CHAR_POS] = {0, 0, 0, 0, 0, 0, 0};
+int initialPhotovalues[NR_OF_CHAR_POS] = {0, 0, 0, 0, 0, 0, 0};
 
 //=================================== Multiplexer ========================================
 
@@ -119,7 +158,7 @@ byte multiplexerPins[4] = {2, 0, 4, 16};
 byte multiplexerSignalPin = 15;
 
 // the photoresistors are being multiplexed
-int mpFotoSelection[NR_OF_CHAR_POS][4] = {
+int mpPhotoSelection[NR_OF_CHAR_POS][4] = {
   {0, 1, 1, 0}, {1, 0, 1, 0}, {0, 0, 1, 0}, {1, 1, 0, 0}, {0, 1, 0, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}
 };
 // the multiplexers reset inputs are being multiplexed
@@ -137,9 +176,9 @@ byte btnStatesPrev[8] = {LOW, LOW, LOW, LOW, LOW, LOW, LOW, LOW};
 //=============================== Game Information ===================================
 
 // stores current game mode 
-GameModes currentGameMode = KEIN_SPIEL;
+GameModes currentGameMode = NO_GAME;
 // is used to check for a game mode change
-GameModes prevGameMode = KEIN_SPIEL;
+GameModes prevGameMode = NO_GAME;
 
 
 // stores current sub game mode 
@@ -163,100 +202,150 @@ int emptyThreshold = 3;
 //================ Word Collection for Purzelwörter (Word Scramble) and Worträtsel (Word Riddle) ============================
 /* In the future this information should be expanded to a full primary school dictionary and be stored on a extra SD Card */
 
-// collection of all needed braille char information
-BrailleChar aGross = {2, 0, 1, "A"};
-BrailleChar bGross = {2, 1, 1, "B"};
-BrailleChar cGross = {2, 2, 1, "C"};
-BrailleChar dGross = {2, 3, 1, "D"};
-BrailleChar eGross = {2, 4, 1, "E"};
-BrailleChar fGross = {2, 5, 1, "F"};
-BrailleChar gGross = {2, 6, 1, "G"};
-BrailleChar hGross = {2, 7, 1, "H"};
-BrailleChar iGross = {2, 8, 1, "I"};
-BrailleChar jGross = {2, 9, 1, "J"};
-BrailleChar kGross = {2, 10, 1, "K"};
-BrailleChar lGross = {2, 11, 1, "L"};
-BrailleChar mGross = {2, 12, 1, "M"};
-BrailleChar nGross = {2, 13, 1, "N"};
-BrailleChar oGross = {2, 14, 1, "O"};
-BrailleChar pGross = {2, 15, 1, "P"};
-BrailleChar qGross = {2, 16, 1, "Q"};
-BrailleChar rGross = {2, 17, 1, "R"};
-BrailleChar sGross = {2, 18, 1, "S"};
-BrailleChar tGross = {2, 19, 1, "T"};
-BrailleChar uGross = {2, 20, 1, "U"};
-BrailleChar vGross = {2, 21, 1, "V"};
-BrailleChar wGross = {2, 22, 1, "W"};
-BrailleChar xGross = {2, 23, 1, "X"};
-BrailleChar yGross = {2, 24, 1, "Y"};
-BrailleChar zGross = {2, 25, 1, "Z"};
-BrailleChar aeGross = {2, 26, 1, "Ae"};
-BrailleChar oeGross = {2, 27, 1, "Oe"};
-BrailleChar ueGross = {2, 28, 1, "Ue"};
-BrailleChar auGross = {2, 29, 1, "Au"};
-BrailleChar chGross = {2, 30, 1, "Ch"};
-BrailleChar eiGross = {2, 31, 1, "Ei"};
-BrailleChar euGross = {2, 32, 1, "Eu"};
-BrailleChar ieGross = {2, 33, 1, "Ie"};
-BrailleChar schGross = {2, 34, 1, "Sch"};
-BrailleChar stGross = {2, 35, 1, "St"};
-BrailleChar aeuGross = {2, 36, 1, "Aeu"};
+// collection of all needed braille char information **GERMAN VERSION START**
+BrailleChar aUppercase = {2, 0, 1, "A"};
+BrailleChar bUppercase = {2, 1, 1, "B"};
+BrailleChar cUppercase = {2, 2, 1, "C"};
+BrailleChar dUppercase = {2, 3, 1, "D"};
+BrailleChar eUppercase = {2, 4, 1, "E"};
+BrailleChar fUppercase = {2, 5, 1, "F"};
+BrailleChar gUppercase = {2, 6, 1, "G"};
+BrailleChar hUppercase = {2, 7, 1, "H"};
+BrailleChar iUppercase = {2, 8, 1, "I"};
+BrailleChar jUppercase = {2, 9, 1, "J"};
+BrailleChar kUppercase = {2, 10, 1, "K"};
+BrailleChar lUppercase = {2, 11, 1, "L"};
+BrailleChar mUppercase = {2, 12, 1, "M"};
+BrailleChar nUppercase = {2, 13, 1, "N"};
+BrailleChar oUppercase = {2, 14, 1, "O"};
+BrailleChar pUppercase = {2, 15, 1, "P"};
+BrailleChar qUppercase = {2, 16, 1, "Q"};
+BrailleChar rUppercase = {2, 17, 1, "R"};
+BrailleChar sUppercase = {2, 18, 1, "S"};
+BrailleChar tUppercase = {2, 19, 1, "T"};
+BrailleChar uUppercase = {2, 20, 1, "U"};
+BrailleChar vUppercase = {2, 21, 1, "V"};
+BrailleChar wUppercase = {2, 22, 1, "W"};
+BrailleChar xUppercase = {2, 23, 1, "X"};
+BrailleChar yUppercase = {2, 24, 1, "Y"};
+BrailleChar zUppercase = {2, 25, 1, "Z"};
+BrailleChar aeUppercase = {2, 26, 1, "Ae"};
+BrailleChar oeUppercase = {2, 27, 1, "Oe"};
+BrailleChar ueUppercase = {2, 28, 1, "Ue"};
+BrailleChar auUppercase = {2, 29, 1, "Au"};
+BrailleChar chUppercase = {2, 30, 1, "Ch"};
+BrailleChar eiUppercase = {2, 31, 1, "Ei"};
+BrailleChar euUppercase = {2, 32, 1, "Eu"};
+BrailleChar ieUppercase = {2, 33, 1, "Ie"};
+BrailleChar schUppercase = {2, 34, 1, "Sch"};
+BrailleChar stUppercase = {2, 35, 1, "St"};
+BrailleChar aeuUppercase = {2, 36, 1, "Aeu"};
 
-BrailleChar aKlein = {2, 37, 1, "a"};
-BrailleChar bKlein = {2, 38, 1, "b"};
-BrailleChar cKlein = {2, 39, 1, "c"};
-BrailleChar dKlein = {2, 40, 1, "d"};
-BrailleChar eKlein = {2, 41, 1, "e"};
-BrailleChar fKlein = {2, 42, 1, "f"};
-BrailleChar gKlein = {2, 43, 1, "g"};
-BrailleChar hKlein = {2, 44, 1, "h"};
-BrailleChar iKlein = {2, 45, 1, "i"};
-BrailleChar jKlein = {2, 46, 1, "j"};
-BrailleChar kKlein = {2, 47, 1, "k"};
-BrailleChar lKlein = {2, 48, 1, "l"};
-BrailleChar mKlein = {2, 49, 1, "m"};
-BrailleChar nKlein = {2, 50, 1, "n"};
-BrailleChar oKlein = {2, 51, 1, "o"};
-BrailleChar pKlein = {2, 52, 1, "p"};
-BrailleChar qKlein = {2, 53, 1, "q"};
-BrailleChar rKlein = {2, 54, 1, "r"};
-BrailleChar sKlein = {2, 55, 1, "s"};
-BrailleChar tKlein = {2, 56, 1, "t"};
-BrailleChar uKlein = {2, 57, 1, "u"};
-BrailleChar vKlein = {2, 58, 1, "v"};
-BrailleChar wKlein = {2, 59, 1, "w"};
-BrailleChar xKlein = {2, 60, 1, "x"};
-BrailleChar yKlein = {2, 61, 1, "y"};
-BrailleChar zKlein = {2, 62, 1, "z"};
-BrailleChar aeKlein = {2, 63, 1, "ae"};
-BrailleChar oeKlein = {2, 64, 1, "oe"};
-BrailleChar ueKlein = {2, 65, 1, "ue"};
-BrailleChar auKlein = {2, 66, 1, "au"};
-BrailleChar chKlein = {2, 67, 1, "ch"};
-BrailleChar eiKlein = {2, 68, 1, "ei"};
-BrailleChar euKlein = {2, 69, 1, "eu"};
-BrailleChar ieKlein = {2, 70, 1, "ie"};
-BrailleChar schKlein = {2, 71, 1, "sch"};
-BrailleChar stKlein = {2, 72, 1, "st"};
-BrailleChar aeuKlein = {2, 73, 1, "aeu"};
-BrailleChar ssKlein = {2, 74, 1, "ss"};
+BrailleChar aLowercase = {2, 37, 1, "a"};
+BrailleChar bLowercase = {2, 38, 1, "b"};
+BrailleChar cLowercase = {2, 39, 1, "c"};
+BrailleChar dLowercase = {2, 40, 1, "d"};
+BrailleChar eLowercase = {2, 41, 1, "e"};
+BrailleChar fLowercase = {2, 42, 1, "f"};
+BrailleChar gLowercase = {2, 43, 1, "g"};
+BrailleChar hLowercase = {2, 44, 1, "h"};
+BrailleChar iLowercase = {2, 45, 1, "i"};
+BrailleChar jLowercase = {2, 46, 1, "j"};
+BrailleChar kLowercase = {2, 47, 1, "k"};
+BrailleChar lLowercase = {2, 48, 1, "l"};
+BrailleChar mLowercase = {2, 49, 1, "m"};
+BrailleChar nLowercase = {2, 50, 1, "n"};
+BrailleChar oLowercase = {2, 51, 1, "o"};
+BrailleChar pLowercase = {2, 52, 1, "p"};
+BrailleChar qLowercase = {2, 53, 1, "q"};
+BrailleChar rLowercase = {2, 54, 1, "r"};
+BrailleChar sLowercase = {2, 55, 1, "s"};
+BrailleChar tLowercase = {2, 56, 1, "t"};
+BrailleChar uLowercase = {2, 57, 1, "u"};
+BrailleChar vLowercase = {2, 58, 1, "v"};
+BrailleChar wLowercase = {2, 59, 1, "w"};
+BrailleChar xLowercase = {2, 60, 1, "x"};
+BrailleChar yLowercase = {2, 61, 1, "y"};
+BrailleChar zLowercase = {2, 62, 1, "z"};
+BrailleChar aeLowercase = {2, 63, 1, "ae"};
+BrailleChar oeLowercase = {2, 64, 1, "oe"};
+BrailleChar ueLowercase = {2, 65, 1, "ue"};
+BrailleChar auLowercase = {2, 66, 1, "au"};
+BrailleChar chLowercase = {2, 67, 1, "ch"};
+BrailleChar eiLowercase = {2, 68, 1, "ei"};
+BrailleChar euLowercase = {2, 69, 1, "eu"};
+BrailleChar ieLowercase = {2, 70, 1, "ie"};
+BrailleChar schLowercase = {2, 71, 1, "sch"};
+BrailleChar stLowercase = {2, 72, 1, "st"};
+BrailleChar aeuLowercase = {2, 73, 1, "aeu"};
+BrailleChar ssLowercase = {2, 74, 1, "ss"};
+// collection of all needed braille char information **GERMAN VERSION END**
 
-// collection of all needed word information
-BrailleWord ameise = { 6, 16, {aGross, mKlein, eiKlein, sKlein, eKlein}};
-BrailleWord monat = { 9, 32, {mGross, oKlein, nKlein, aKlein, tKlein}};
-BrailleWord muesli = { 9, 60, {mGross, ueKlein, sKlein, lKlein, iKlein}};
-BrailleWord pferd = { 9, 171, {pGross, fKlein, eKlein, rKlein, dKlein}};
-BrailleWord regen = { 10, 12, {rGross, eKlein, gKlein, eKlein, nKlein}};
-BrailleWord sonne = { 10, 236, {sGross, oKlein, nKlein, nKlein, eKlein}};
-BrailleWord tafel = { 11, 111, {tGross, aKlein, fKlein, eKlein, lKlein}};
-BrailleWord topf = { 11, 172, {tGross, oKlein, pKlein, fKlein}};
-BrailleWord traum = { 11, 182, {tGross, rKlein, auKlein, mKlein}};
-BrailleWord vogel = { 12, 6, {vGross, oKlein, gKlein, eKlein, lKlein}};
-BrailleWord wolke = { 12, 123, {wGross, oKlein, lKlein, kKlein, eKlein}};
-BrailleWord zwerg = { 12, 217, {zGross, wKlein, eKlein, rKlein, gKlein}};
+// collection of all needed braille char information **ENGLISH VERSION START**
+// TODO: include english grade 2 braille abbreviation characters to audiofiles
+/*BrailleChar aLowercase = {2, 26, 1, "a"};
+BrailleChar bLowercase = {2, 27, 1, "b"};
+BrailleChar cLowercase = {2, 28, 1, "c"};
+BrailleChar dLowercase = {2, 29, 1, "d"};
+BrailleChar eLowercase = {2, 30, 1, "e"};
+BrailleChar fLowercase = {2, 31, 1, "f"};
+BrailleChar gLowercase = {2, 32, 1, "g"};
+BrailleChar hLowercase = {2, 33, 1, "h"};
+BrailleChar iLowercase = {2, 34, 1, "i"};
+BrailleChar jLowercase = {2, 35, 1, "j"};
+BrailleChar kLowercase = {2, 36, 1, "k"};
+BrailleChar lLowercase = {2, 37, 1, "l"};
+BrailleChar mLowercase = {2, 38, 1, "m"};
+BrailleChar nLowercase = {2, 39, 1, "n"};
+BrailleChar oLowercase = {2, 40, 1, "o"};
+BrailleChar pLowercase = {2, 41, 1, "p"};
+BrailleChar qLowercase = {2, 42, 1, "q"};
+BrailleChar rLowercase = {2, 43, 1, "r"};
+BrailleChar sLowercase = {2, 44, 1, "s"};
+BrailleChar tLowercase = {2, 45, 1, "t"};
+BrailleChar uLowercase = {2, 46, 1, "u"};
+BrailleChar vLowercase = {2, 47, 1, "v"};
+BrailleChar wLowercase = {2, 48, 1, "w"};
+BrailleChar xLowercase = {2, 49, 1, "x"};
+BrailleChar yLowercase = {2, 50, 1, "y"};
+BrailleChar zLowercase = {2, 51, 1, "z"};*/
+// collection of all needed braille char information **ENGLISH VERSION END**
 
-// collection of words the system can choose from
-BrailleWord woerter[11] = {traum, ameise, vogel, zwerg, topf, regen, monat, wolke, sonne, pferd, tafel};
+// collection of all needed word information **GERMAN VERSION START**
+BrailleWord ameise = { 6, 16, {aUppercase, mLowercase, eiLowercase, sLowercase, eLowercase}};
+BrailleWord monat = { 9, 32, {mUppercase, oLowercase, nLowercase, aLowercase, tLowercase}};
+BrailleWord muesli = { 9, 60, {mUppercase, ueLowercase, sLowercase, lLowercase, iLowercase}};
+BrailleWord pferd = { 9, 171, {pUppercase, fLowercase, eLowercase, rLowercase, dLowercase}};
+BrailleWord regen = { 10, 12, {rUppercase, eLowercase, gLowercase, eLowercase, nLowercase}};
+BrailleWord sonne = { 10, 236, {sUppercase, oLowercase, nLowercase, nLowercase, eLowercase}};
+BrailleWord tafel = { 11, 111, {tUppercase, aLowercase, fLowercase, eLowercase, lLowercase}};
+BrailleWord topf = { 11, 172, {tUppercase, oLowercase, pLowercase, fLowercase}};
+BrailleWord traum = { 11, 182, {tUppercase, rLowercase, auLowercase, mLowercase}};
+BrailleWord vogel = { 12, 6, {vUppercase, oLowercase, gLowercase, eLowercase, lLowercase}};
+BrailleWord wolke = { 12, 123, {wUppercase, oLowercase, lLowercase, kLowercase, eLowercase}};
+BrailleWord zwerg = { 12, 217, {zUppercase, wLowercase, eLowercase, rLowercase, gLowercase}};
+// collection of all needed word information **GERMAN VERSION END**
+
+// collection of all needed word information **ENGLISH VERSION START**
+// TODO: include english grade 2 braille abbreviation characters to audiofiles and adjust words correspondingly
+/*BrailleWord ant = { 6, 0, {aLowercase, nLowercase, tLowercase}};
+BrailleWord month = { 6, 20, {mLowercase, oLowercase, nLowercase, tLowercase, hLowercase}};
+BrailleWord muesli = { 6, 21, {mLowercase, uLowercase, eLowercase, sLowercase, lLowercase, iLowercase}};
+BrailleWord horse = { 6, 17, {hLowercase, oLowercase, rLowercase, sLowercase, eLowercase}};
+BrailleWord rain = { 6, 23, {rmLowercase, aLowercase, iLowercase, nLowercase}};
+BrailleWord sun = { 6, 27, {smLowercase, uLowercase, nLowercase}};
+BrailleWord flower = { 6, 15, {fLowercase, lLowercase, oLowercase, wLowercase, eLowercase, rLowercase}};
+BrailleWord hare = { 6, 16, {hLowercase, aLowercase, rLowercase, eLowercase}};
+BrailleWord dream = { 6, 11, {dLowercase, rLowercase, eLowercase, aLowercase, mLowercase}};
+BrailleWord bird = { 6, 5, {bLowercase, iLowercase, rLowercase, dLowercase}};
+BrailleWord cloud = { 6, 9, {cLowercase, lLowercase, oLowercase, uLowercase, dLowercase}};
+BrailleWord shark = { 6, 25, {sLowercase, hLowercase, aLowercase, rLowercase, kLowercase}};*/
+// collection of all needed word information **ENGLISH VERSION END**
+
+// collection of words the system can choose from **GERMAN VERSION**
+BrailleWord wordList[11] = {traum, ameise, vogel, zwerg, topf, regen, monat, wolke, sonne, pferd, tafel};
+// collection of words the system can choose from **ENGLISH VERSION**
+//BrailleWord wordList[11] = {ant, month, muesli, horse, rain, sun, flower, hare, dream, bird, cloud};
 
 // stores which words were already used, to prevent them from being chosen twice
 BrailleWord wordHistory[10] = {{0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}, {0}};
@@ -283,7 +372,7 @@ void setup() {
   for (int i = 0; i < 8; i++) pinMode(btnPins[i], INPUT);
   // set mp3 player's busy pin to input
   pinMode(mp3PlayerBusyPin, INPUT);
-  // initialize audio feed back for empty slots
+  // initialize audio feedback for empty slots
   for (int i = 0; i < NR_OF_CHAR_POS; i++) {
     for (int j = 0; j < AUDIO_FEEDBACK_SIZE; j++) {
       charAudioFeedback[i][j] = audioFeedbackLeeresFeld[j];
@@ -299,13 +388,13 @@ void setup() {
   initReaders();
 
   // read initial values from photoresistors
-  setInitialFotovalues();
+  setInitialPhotovalues();
   delay(50);
 
   Serial.println(F("end of setup"));
-  // Für Studie Intro auskommentiert.
-  /*Audio hallo = {1, 0};
-  addToAudioQueue(hallo);*/
+  
+  // Intro Audio
+  addToAudioQueue(hello);
 }
 
 
@@ -313,7 +402,7 @@ void setup() {
 
 void loop() {
   if (!eval) { // if no game mode switch with important audio information is happening
-    readFotoValues(); // then update the photovalues
+    readPhotoValues(); // then update the photovalues
     checkGameMode(); // check current game mode
     checkBrailleCharsState(); // check current letter state
     setGameSubMode(); // set sub game mode depending on current game mode
@@ -341,7 +430,7 @@ void checkGameMode() {
     prevGameMode = currentGameMode;
     currentGameMode = currentTag.gameMode;
     // if game mode has changed or a new word for the Worte Nachlegen / Word Copy game is present, start new game
-    if (currentGameMode != prevGameMode || (currentGameMode == WORTE_NACHLEGEN && isNewWord(currentTag))) {
+    if (currentGameMode != prevGameMode || (currentGameMode == COPY_WORD && isNewWord(currentTag))) {
       initGame(currentTag);
     }
   } else {
@@ -375,7 +464,7 @@ void checkBrailleCharsState() {
             currentCharState[i] = bChar; // update char state
             
             // log event information for study
-            Serial.print("neuer Buchstabe wurde abgelegt: "); Serial.print(bChar.value); Serial.print(" Position: "); Serial.println(i);
+            Serial.print("New letter was placed: "); Serial.print(bChar.value); Serial.print(" position: "); Serial.println(i);
             debug();
             printCurrentWordTemplate();
             printWantedCharState();
@@ -413,7 +502,7 @@ void checkBrailleCharsState() {
       BrailleChar bChar = currentCharState[i];
       // empty the char state position
       currentCharState[i] = {0};
-      // update audio feedback to "leeres feld" / empty slot
+      // update audio feedback to "leeres feld" / "empty slot"
       charAudioFeedback[i][0] = audioFeedbackLeeresFeld[0];
       // empty other audio feedback
       for (int a = 1; a < AUDIO_FEEDBACK_SIZE; a++) {
@@ -421,7 +510,7 @@ void checkBrailleCharsState() {
       }
       if (bChar.occurance != 0) { // if pos wasn't already empty in a prior check
         // log event information for study
-        Serial.print("Buchstabe wurde entfernt: "); Serial.print(bChar.value); Serial.print(" Position: "); Serial.println(i);
+        Serial.print("Letter was removed: "); Serial.print(bChar.value); Serial.print(" position: "); Serial.println(i);
         printCurrentWordTemplate();
         printWantedCharState();
         printCurrentCharState();
@@ -432,7 +521,7 @@ void checkBrailleCharsState() {
 
 //returns the soundeffect for either a positive or negative feedback
 Audio calcCharAudioFeedback(int pos) {
-  if (currentGameMode == KEIN_SPIEL) {
+  if (currentGameMode == NO_GAME) {
     return {0, 0}; // no sfx
   } else {
     if (currentCharState[pos].audio.folder != 0 && currentStateMatchesWantedState(pos)) {
@@ -446,28 +535,28 @@ Audio calcCharAudioFeedback(int pos) {
 
 //returns the spoken text, that adds to the feedback sound effect
 Audio calcCharAdditionalAudioFeedback(int pos, int feedbackCounter) {
-  if (currentGameMode == KEIN_SPIEL) {
+  if (currentGameMode == NO_GAME) {
     return {0, 0};
-  } else if (currentGameMode == WORTE_NACHLEGEN && feedbackCounter == 1) {
-    return worteNachlegen_calcCharAdditionalAudioFeedback(pos);
-  } else if (currentGameMode == PURZELWOERTER && feedbackCounter == 1) {
-    return purzelwoerter_calcCharAdditionalAudioFeedback(pos);
-  } else if (currentGameMode == WORTRAETSEl) {
-    return wortraetsel_calcCharAdditionalAudioFeedback(pos, feedbackCounter);
+  } else if (currentGameMode == COPY_WORD && feedbackCounter == 1) {
+    return copyWords_calcCharAdditionalAudioFeedback(pos);
+  } else if (currentGameMode == WORD_SCRAMBLE && feedbackCounter == 1) {
+    return wordScramble_calcCharAdditionalAudioFeedback(pos);
+  } else if (currentGameMode == WORD_RIDDLE) {
+    return wordRiddle_calcCharAdditionalAudioFeedback(pos, feedbackCounter);
   }
   return {0, 0};
 }
 
 // initializes a game dependend on current game mode
 void initGame(Tag tag) {
-  if (currentGameMode == KEIN_SPIEL) {
+  if (currentGameMode == NO_GAME) {
     wordTemplate = {0}; // empty template
-  } else if (currentGameMode == WORTE_NACHLEGEN) {
-    worteNachlegen_initGame(tag);
-  } else if (currentGameMode == PURZELWOERTER) {
-    purzelwoerter_initGame();
-  } else if (currentGameMode == WORTRAETSEl) {
-    wortraetsel_initGame();
+  } else if (currentGameMode == COPY_WORD) {
+    copyWords_initGame(tag);
+  } else if (currentGameMode == WORD_SCRAMBLE) {
+    wordScramble_initGame();
+  } else if (currentGameMode == WORD_RIDDLE) {
+    wordRiddle_initGame();
   }
 }
 
@@ -477,32 +566,32 @@ bool currentStateMatchesWantedState(int pos) {
 
 // decides for the sub game mode depending on current game mode 
 void setGameSubMode() {
-  if (currentGameMode == KEIN_SPIEL) {
+  if (currentGameMode == NO_GAME) {
     prevGameSubMode = currentGameSubMode;
     currentGameSubMode = NO_SUB;
-  } else if (currentGameMode == WORTE_NACHLEGEN) {
-    if (worteNachlegen_istBeendet()) {
+  } else if (currentGameMode == COPY_WORD) {
+    if (copyWords_istBeendet()) {
       prevGameSubMode = currentGameSubMode;
-      currentGameSubMode = WORTE_NACHLEGEN_BEENDET;
+      currentGameSubMode = COPY_WORD_FINISHED;
     } else {
       prevGameSubMode = currentGameSubMode;
       currentGameSubMode = NO_SUB;
     }
-  } else if (currentGameMode == PURZELWOERTER) {
-    if (currentGameSubMode == PURZELWOERTER_BUCHSTABEN_ABLEGEN && purzelwoerter_istAblegenBeendet()) {
+  } else if (currentGameMode == WORD_SCRAMBLE) {
+    if (currentGameSubMode == WORD_SCRAMBLE_PLACE_LETTERS && wordScramble_allLettersPlaced()) {
       prevGameSubMode = currentGameSubMode;
-      currentGameSubMode = PURZELWOERTER_BUCHSTABEN_SORTIEREN;
-    } else if (currentGameSubMode == PURZELWOERTER_BUCHSTABEN_SORTIEREN && purzelwoerter_istSortierenBeendet()) {
+      currentGameSubMode = WORD_SCRAMBLE_SORT_LETTERS;
+    } else if (currentGameSubMode == WORD_SCRAMBLE_SORT_LETTERS && wordScramble_lettersSorted()) {
       prevGameSubMode = currentGameSubMode;
-      currentGameSubMode = PURZELWOERTER_BEENDET;
-    } else if (currentGameSubMode == PURZELWOERTER_BUCHSTABEN_SORTIEREN && !purzelwoerter_istSortierenBeendet()) {
+      currentGameSubMode = WORD_SCRAMBLE_FINISHED;
+    } else if (currentGameSubMode == WORD_SCRAMBLE_SORT_LETTERS && !wordScramble_lettersSorted()) {
       prevGameSubMode = currentGameSubMode;
-      currentGameSubMode = PURZELWOERTER_BUCHSTABEN_SORTIEREN;
+      currentGameSubMode = WORD_SCRAMBLE_SORT_LETTERS;
     }
-  } else if (currentGameMode == WORTRAETSEl) {
-    if (wortraetsel_istBeendet()) {
+  } else if (currentGameMode == WORD_RIDDLE) {
+    if (wordRiddle_isFinished()) {
       prevGameSubMode = currentGameSubMode;
-      currentGameSubMode = WORTRAETSEl_BEENDET;
+      currentGameSubMode = WORD_RIDDLE_FINISHED;
     } else {
       prevGameSubMode = currentGameSubMode;
       currentGameSubMode = NO_SUB;
@@ -513,12 +602,12 @@ void setGameSubMode() {
 // handle possible submode change
 void handleGameSubModeChange() {
   if (currentGameSubMode != prevGameSubMode) {
-    if (currentGameMode == WORTE_NACHLEGEN) {
-      worteNachlegen_handleSubModeChange();
-    } else if (currentGameMode == PURZELWOERTER) {
-      purzelwoerter_handleSubModeChange();
-    } else if (currentGameMode == WORTRAETSEl) {
-      wortraetsel_handleSubModeChange();
+    if (currentGameMode == COPY_WORD) {
+      copyWords_handleSubModeChange();
+    } else if (currentGameMode == WORD_SCRAMBLE) {
+      wordScramble_handleSubModeChange();
+    } else if (currentGameMode == WORD_RIDDLE) {
+      wordRiddle_handleSubModeChange();
     }
   }
 }
@@ -541,38 +630,37 @@ void checkButtons() {
 void handleButtonPressed(int btn) {
 
   // log event information for study
-  Serial.print("Button Nummer "); Serial.print(btn); Serial.println(" gedrueckt.");
+  Serial.print("Button number "); Serial.print(btn); Serial.println(" was pressed.");
 
   // if game mode button was pressed...
   if (btn == 0) {
     
-    if (currentGameMode == KEIN_SPIEL) {
-      //repeat braille buddy intro hallo
-      Audio hallo = {1, 0};
-      addToAudioQueue(hallo);
-    } else if (currentGameMode == WORTE_NACHLEGEN) {
-      if (currentGameSubMode == WORTE_NACHLEGEN_BEENDET) {
-        worteNachlegen_handleBeendet(true);
+    if (currentGameMode == NO_GAME) {
+      //repeat braille buddy intro
+      addToAudioQueue(hello);
+    } else if (currentGameMode == COPY_WORD) {
+      if (currentGameSubMode == COPY_WORD_FINISHED) {
+        copyWords_handleBeendet(true);
       } else {
         forceUpdateAudioQueue(wordTemplate.audio);
-        addToAudioQueue({3, 0}); //Kannst du dieses Wort nachlegen?
+        addToAudioQueue(copyWordsIntro);
       }
-    } else if (currentGameMode == PURZELWOERTER) {
-      purzelwoerter_handleFirstButtonPressed();
-    } else if (currentGameMode == WORTRAETSEl) {
-      wortraetsel_handleFirstButtonPressed();
+    } else if (currentGameMode == WORD_SCRAMBLE) {
+      wordScramble_handleFirstButtonPressed();
+    } else if (currentGameMode == WORD_RIDDLE) {
+      wordRiddle_handleFirstButtonPressed();
     }
     
   } else { 
     
     // if a letter button was pressed...
-    if (currentGameMode == PURZELWOERTER && currentGameSubMode == PURZELWOERTER_BUCHSTABEN_ABLEGEN && currentCharState[btn - 1].occurance == 0) {
+    if (currentGameMode == WORD_SCRAMBLE && currentGameSubMode == WORD_SCRAMBLE_PLACE_LETTERS && currentCharState[btn - 1].occurance == 0) {
       if (wantedCharState[btn - 1].audio.folder != 0) {
         forceUpdateAudioQueue(wantedCharState[btn - 1].audio);
       } else {
         forceUpdateAudioQueue(audioFeedbackLeeresFeld[0]);
       }
-    } else if (currentGameMode == KEIN_SPIEL) {
+    } else if (currentGameMode == NO_GAME) {
       forceUpdateAudioQueue(charAudioFeedback[btn - 1][0]);
     } else  {
       forceUpdateAudioQueue(charAudioFeedback[btn - 1][0]);

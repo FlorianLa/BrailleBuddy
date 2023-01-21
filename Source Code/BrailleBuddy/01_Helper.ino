@@ -4,13 +4,13 @@
 // get game mode enum from game mode id
 GameModes getGameMode(int gameModeId) {
   if (gameModeId == 0) {
-    return KEIN_SPIEL;
+    return NO_GAME;
   } else if (gameModeId == 1) {
-    return WORTE_NACHLEGEN;
+    return COPY_WORD;
   } else if (gameModeId == 2) {
-    return PURZELWOERTER;
+    return WORD_SCRAMBLE;
   } else if (gameModeId == 3) {
-    return WORTRAETSEl;
+    return WORD_RIDDLE;
   }
 }
 
@@ -59,18 +59,18 @@ void emptyWordTemplate() {
   emptyWordCounter += 1;
   if (emptyWordCounter > emptyThreshold) {
     if(wordTemplate.audio.track != 0 && wordTemplate.audio.folder != 0) {
-     Serial.println("Spielkarte entfernt.");  
+     Serial.println("Gamecard was removed.");  
     }
     wordTemplate = {0};
     emptyWordCounter = 0;
     prevGameMode = currentGameMode;
-    currentGameMode = KEIN_SPIEL;
+    currentGameMode = NO_GAME;
     currentGameSubMode = NO_SUB;
     for(int i = 0; i < NR_OF_CHAR_POS; i++) {
       wantedCharState[i] = {0};  
     }
-    if (prevGameMode != KEIN_SPIEL) {
-      forceUpdateAudioQueue({1, 13}); //Spielkarte entfernt
+    if (prevGameMode != NO_GAME) {
+      forceUpdateAudioQueue(gameCardRemoved);
     }
   }
 }
@@ -110,14 +110,14 @@ void printCurrentBrailleCharState() {
 
 
 void debug() {
-  Serial.println("fotovalues:");
+  Serial.println("photovalues:");
   for (int i = 0; i < 7; i++) {
-    Serial.print(initialFotovalues[i]);
+    Serial.print(initialPhotovalues[i]);
     Serial.print(" ");
   }
   Serial.println("");
   for (int i = 0; i < 7; i++) {
-    Serial.print(fotovalues[i]);
+    Serial.print(photovalues[i]);
     Serial.print(" ");
   }
   Serial.println("");

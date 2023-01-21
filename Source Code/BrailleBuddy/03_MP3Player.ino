@@ -47,7 +47,7 @@ void playAudio() {
       counter++;
     }
     mp3PlayerBusy = true;
-    currentBusyValue = LOW; // make sure that braillebox notices the update on short tracks
+    currentBusyValue = LOW; // make sure that braille buddy notices the update on short tracks
     updateAudioQueue();
   } else {
     currentBusyValue = digitalRead(mp3PlayerBusyPin);
