@@ -4,6 +4,10 @@ BrailleBuddy is a tangible user interface supporting children with visual impair
 
 ![BrailleBuddy](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy.jpg)
 
+### Supported Languages
+
+German ("Vollbraille"), English (under construction) 
+
 ### Hardware
 
 * **Microcontroller:** The brain of BrailleBuddy is an ESP32 microcontroller board that is easy to program, supports a variety of protocols, and has 27 usable General Purpose Input/Output (GPIO) pins. The board also has Wifi and Bluetooth functionality, which offers numerous possibilities for further development of BraillyBuddy. For other microcontrollers please check if there are enough GPIO pins and adjust the pin layout.
