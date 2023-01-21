@@ -22,7 +22,7 @@ To adjust the source code for the english version please comment out sections ma
 * **MP3 Module and Loudspeaker:** For the auditory feedback, we used a DFPlayer-Mini – a compact serial MP3 module with a built-in amplifier and an SD card slot to store MP3 files – and a small 3 Watt 8 Ohm
 loudspeaker.
 * **Buttons:** To allow users to repeat the slot-related audio feedback, we used 8 x push buttons (12 x 12 x 7.3 mm).
-* **Resistors:** Resistors: To find out which and how many resistors you need, please consult the respective data sheet of your module.
+* **Resistors:** To find out which and how many resistors you need, please consult the respective data sheets of your modules.
 
 ![Hardware](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy_Electronics.jpg)
 
