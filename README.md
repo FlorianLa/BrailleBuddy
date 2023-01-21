@@ -6,7 +6,11 @@ BrailleBuddy is a tangible user interface supporting children with visual impair
 
 ### Supported Languages
 
-German ("Vollbraille"), English **(under construction)** 
+**German** - with Braille System "Vollbraille", 
+
+**English** - with Braille System English Grade 2 Braille **(under construction)** 
+TODOS: Audiofiles for abbreviations of the Braille System, Letter Cards for the abbreviations, English Word Cards, English Game Cards
+To adjust the source code for the english version please comment out sections marked with GERMAN VERSION and comment in sections with ENGLISH VERSION
 
 ### Hardware
 
