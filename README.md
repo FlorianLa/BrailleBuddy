@@ -21,48 +21,37 @@ loudspeaker.
 
 ### Pin Layout
 
-| **ESP32 Pin** | **Note** | **Multiplexer** | **MP3 Module** | **RFID Reader** | **Button**     |
-|---------------|----------|-----------------|----------------|-----------------|----------------|
-| + 3,3V        |          |                 |                |         |       |        |       |
-| + 5V          |          |                 |                |         |       |        |       |
-| GND           |          |                 |                |         |       |        |       |
-| GPIO 0        |          |                 |                |         |       |        |       |
-| GPIO 1        |          |                 |                |         |       |        |       |
-| GPIO 2        |          |                 |                |         |       |        |       |
-| GPIO 3        |          |                 |                |         |       |        |       |
-| GPIO 4        |          |                 |                |         |       |        |       |
-| GPIO 5        |          |                 |                |         |       |        |       |
-| GPIO 6        |          |                 |                |         |       |        |       |
-| GPIO 7        |          |                 |                |         |       |        |       |
-| GPIO 8        |          |                 |                |         |       |        |       |
-| GPIO 9        |          |                 |                |         |       |        |       |
-| GPIO 10       |          |                 |                |         |       |        |       |
-| GPIO 11       |          |                 |                |         |       |        |       |
-| GPIO 12       |          |                 |                |         |       |        |       |
-| GPIO 13       |          |                 |                |         |       |        |       |
-| GPIO 14       |          |                 |                |         |       |        |       |
-| GPIO 15       |          |                 |                |         |       |        |       |
-| GPIO 16       |          |                 |                |         |       |        |       |
-| GPIO 17       |          |                 |                |         |       |        |       |
-| GPIO 18       |          |                 |                |         |       |        |       |
-| GPIO 19       |          |                 |                |         |       |        |       |
-| GPIO 20       |          |                 |                | No. 1   | SDA   |        |       |
-| GPIO 21       |          |                 |                |         |       |        |       |
-| GPIO 22       |          |                 |                |         |       |        |       |
-| GPIO 23       |          |                 |                |         |       |        |       |
-| GPIO 24       |          |                 |                |         |       |        |       |
-| GPIO 25       |          |                 |                |         |       |        |       |
-| GPIO 26       |          |                 |                |         |       |        |       |
-| GPIO 27       |          |                 |                |         |       |        |       |
-| GPIO 28       |          |                 |                |         |       |        |       |
-| GPIO 29       |          |                 |                |         |       |        |       |
-| GPIO 30       |          |                 |                |         |       |        |       |
-| GPIO 31       |          |                 |                |         |       |        |       |
-| GPIO 32       |          |                 |                |         |       |        |       |
-| GPIO 33       |          |                 |                |         |       |        |       |
-| GPIO 34       |          |                 |                |         |       |        |       |
-| GPIO 35       |          |                 |                |         |       |        |       |
-| GPIO 36       |          |                 |                |         |       |        |       |
-| GPIO 37       |          |                 |                |         |       |        |       |
-| GPIO 38       |          |                 |                |         |       |        |       |
-| GPIO 39       |          |                 |                |         |       |        |       |
+| **ESP32 Pin** | **Note**                              | **Multiplexer** | **MP3 Module** | **RFID Reader** | **Button**     |
+|---------------|---------------------------------------|-----------------|----------------|-----------------|----------------|
+| GPIO 0        |                                       | S1              |                |                 |                |
+| GPIO 1        | TX                                    |                 | TX             |                 |                |
+| GPIO 2        |                                       | S0              |                |                 |                |
+| GPIO 3        | RX                                    |                 | RX             |                 |                |
+| GPIO 4        |                                       | S2              |                |                 |                |
+| GPIO 5        |                                       |                 |                | No. 3, SDA      |                |
+| GPIO 6        | SPI bus for flash memory, do not use! |                 |                |                 |                |
+| GPIO 7        | SPI bus for flash memory, do not use! |                 |                |                 |                |
+| GPIO 8        | SPI bus for flash memory, do not use! |                 |                |                 |                |
+| GPIO 9        | SPI bus for flash memory, do not use! |                 |                |                 |                |
+| GPIO 10       | SPI bus for flash memory, do not use! |                 |                |                 |                |
+| GPIO 11       | SPI bus for flash memory, do not use! |                 |                |                 |                |
+| GPIO 12       |                                       |                 |                |                 |                |
+| GPIO 13       |                                       |                 |                | No. 4, SDA      |                |
+| GPIO 14       |                                       |                 |                |                 | No. 8          |
+| GPIO 15       | used as Reader RST Pin                | SIG             |                |                 |                |
+| GPIO 16       |                                       | S3              |                |                 |                |
+| GPIO 17       |                                       |                 |                | No. 5, SDA      |                |
+| GPIO 18       | CLK                                   |                 |                | All, SCK        |                |
+| GPIO 19       | MISO                                  |                 |                | All, MISO       |                |
+| GPIO 21       |                                       |                 |                | No. 2, SDA      |                |
+| GPIO 22       |                                       |                 |                | No. 1, SDA      |                |
+| GPIO 23       | MOSI                                  |                 |                | All, MOSI       |                |
+| GPIO 25       |                                       |                 |                |                 | No. 5          |
+| GPIO 26       |                                       |                 |                |                 | No. 6          |
+| GPIO 27       |                                       |                 |                |                 | No. 7          |
+| GPIO 32       |                                       |                 |                |                 | No. 3          |
+| GPIO 33       |                                       |                 |                |                 | No. 4          |
+| GPIO 34       | only input                            |                 |                |                 | No. 1          |
+| GPIO 35       | only input                            |                 |                |                 | No. 2          |
+| GPIO 36       | only input                            |                 |                |                 |                |
+| GPIO 39       | only input                            |                 | BUSY           |                 |                |
