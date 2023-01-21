@@ -14,6 +14,8 @@ To adjust the source code for the english version please comment out sections ma
 
 ### Hardware
 
+![Hardware](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy_Electronics.jpg)
+
 * **Microcontroller:** The brain of BrailleBuddy is an ESP32 microcontroller board that is easy to program, supports a variety of protocols, and has 27 usable General Purpose Input/Output (GPIO) pins. The board also has Wifi and Bluetooth functionality, which offers numerous possibilities for further development of BraillyBuddy. For other microcontrollers please check if there are enough GPIO pins and adjust the pin layout.
 * **NFC Tags:** To store digital information on our game cards we used NFC Stickers (12 x 19 mm - NTAG213 - 180 Byte - transparent).
 * **RFID Readers:** To detect game cards and read and write the digital information we used 5 x Mifare RFID-RC522 Modules, which communicate with the microcontroller via the SPI interface.
@@ -24,7 +26,6 @@ loudspeaker.
 * **Buttons:** To allow users to repeat the slot-related audio feedback, we used 8 x push buttons (12 x 12 x 7.3 mm).
 * **Resistors:** To find out which and how many resistors you need, please consult the respective data sheets of your modules.
 
-![Hardware](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy_Electronics.jpg)
 
 
 ### Pin Layout
