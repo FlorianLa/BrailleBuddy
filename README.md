@@ -64,3 +64,14 @@ loudspeaker.
 | GPIO 35       | only input                            |                 |                |                 | No. 2          |
 | GPIO 36       | only input                            |                 |                |                 |                |
 | GPIO 39       | only input                            |                 | BUSY           |                 |                |
+
+
+### Audio Files
+
+For BrailleBuddys Audio-Feedback we used the following free text-to-speech converter: https://ttsmp3.com/.
+
+Sources of the used sound effects:
+* wrong answer: https://pixabay.com/de/sound-effects/wrong-answer-126515/
+* correct answer: https://pixabay.com/de/sound-effects/success-1-6297/
+* evaluation drums: https://pixabay.com/de/sound-effects/tadaa-47995/
+* dice rolling for word scramble game intro: https://pixabay.com/de/sound-effects/dice-cup-60668/
