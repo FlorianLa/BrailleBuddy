@@ -1,15 +1,22 @@
 ## BrailleBuddy
 
-BrailleBuddy is a tangible user interface supporting children with visual impairments in learning Braille. It was created using a human-centered inclusive design process with interviews, six design iterations with prototypes, and feedback from experts, students, and teachers. Alleviating the need for supervision, the device could be used during breaks in school or at home, providing additional opportunities to experience Braille and individual audio feedback to support the users learning.
+BrailleBuddy is a tangible user interface supporting children with visual impairments in learning Braille. It was created using a human-centered inclusive design process with interviews, six design iterations with prototypes, and feedback from experts, students, and teachers. Alleviating the need for supervision, the device can be used during breaks in school or at home, providing additional opportunities to experience Braille and individual audio feedback to support the users in learning to read and spell Braille.
 
 ![BrailleBuddy](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy.jpg)
 
+### Case and 3D-printed Cards
+We provide a *.svg file for the wooden case of BraillBuddy in "CaseModel(Lasercutter)". The lid is constructed from two layers of wood. Please be aware, that the files are designed for material with 3mm thickness. If you use other materials you need to adjust the contact areas accordingly.
+
+Further, we provide language specific 3D-models for all cards used. **right now only the German version is populated, but the models can be used by changing the Braille text beneath the figurine.**
+The sources for the 3D figurines are listed next to each card.
+
 ### Supported Languages
 
-**German** - with Braille System "Vollbraille", 
+**German** - with Braille system "Vollbraille". This version was used in the study.
 
-**English** - with Braille System English Grade 2 Braille **(under construction)** 
-TODOS: Audiofiles for abbreviations of the Braille System, Letter Cards for the abbreviations, English Word Cards, English Game Cards
+**English** - with Braille system English Grade 2 Braille **(under construction)** 
+For the english version some points need to be completed, such as audio files and letter cards for abbreviations and English game and word cards.
+
 To adjust the source code for the english version please comment out sections marked with GERMAN VERSION and comment in sections with ENGLISH VERSION
 
 ### Hardware
@@ -17,15 +24,22 @@ To adjust the source code for the english version please comment out sections ma
 ![Hardware](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy_Electronics.jpg)
 
 * **Microcontroller:** The brain of BrailleBuddy is an ESP32 microcontroller board that is easy to program, supports a variety of protocols, and has 27 usable General Purpose Input/Output (GPIO) pins. The board also has Wifi and Bluetooth functionality, which offers numerous possibilities for further development of BraillyBuddy. For other microcontrollers please check if there are enough GPIO pins and adjust the pin layout.
-* **NFC Tags:** To store digital information on our game cards we used NFC Stickers (12 x 19 mm - NTAG213 - 180 Byte - transparent).
-* **RFID Readers:** To detect game cards and read and write the digital information we used 5 x Mifare RFID-RC522 Modules, which communicate with the microcontroller via the SPI interface.
-* **Photoresistors:** While the readers are responsible for receiving the information from the NFC tags, we used 7 x light dependent photoresistors to determine the corresponding position for each tag on the box as most of the readers are responsible for two slots. 
-* **Multiplexer:** To handle the various needed connections we used a 16 channel digital/analog multiplexer to read out the analog signals from the photoresistors and distribute the RFID reader's reset line (RST).
+* **NFC Tags:** To store digital information on our game cards, we used NFC Stickers (12 x 19 mm - NTAG213 - 180 Byte - transparent).
+* **RFID Readers:** To detect game cards and read and write the digital information, we used 5 x Mifare RFID-RC522 Modules, which communicate with the microcontroller via the SPI interface.
+* **Photoresistors:** While the readers are responsible for receiving the information from the NFC tags, we used 7 x light dependent photoresistors to determine the corresponding position for each tag on the box as most of the readers cover two slots. 
+* **Multiplexer:** We used a 16 channel digital/analog multiplexer to handle the various needed connections, i.e., to read out the analog signals from the photoresistors and distribute the RFID reader's reset line (RST).
 * **MP3 Module and Loudspeaker:** For the auditory feedback, we used a DFPlayer-Mini – a compact serial MP3 module with a built-in amplifier and an SD card slot to store MP3 files – and a small 3 Watt 8 Ohm
 loudspeaker.
 * **Buttons:** To allow users to repeat the slot-related audio feedback, we used 8 x push buttons (12 x 12 x 7.3 mm).
 * **Resistors:** To find out which and how many resistors you need, please consult the respective data sheets of your modules.
 
+### Improvements
+We describe various possible improvements for BrailleBuddy in our paper. The most relevant possibilities are:
+* Add a headphone connector and an interface to cotrol the volume.
+* Instead of reading the word, BrailleBuddy could also make corresponding sounds, e.g., a car or animal sounds.
+* Consider differently shaped cards to support users that find corectly rotating and playing the cards challenging.
+* Use separate storage areas for the letter cards or reduce the selection of cards presented to support children just starting to learn Braille.
+* The audio feedback can be improved by reacting to a button being pressed consecutively multiple times, long times in between cards placed, and multiple incorrectly placed cards. BrailleBuddy could give more diverse responses, e.g., "You placed the correct letter but in the wrong spot." or give hints towards the games solution.
 
 
 ### Pin Layout
@@ -68,9 +82,9 @@ loudspeaker.
 
 ### Audio Files
 
-For BrailleBuddys Audio-Feedback we used the following free text-to-speech converter: https://ttsmp3.com/.
+we used the following free text-to-speech converter to create most audio files: https://ttsmp3.com/.
 
-Sources of the used sound effects:
+The sources of the sound effects used are:
 * wrong answer: https://pixabay.com/de/sound-effects/wrong-answer-126515/
 * correct answer: https://pixabay.com/de/sound-effects/success-1-6297/
 * evaluation drums: https://pixabay.com/de/sound-effects/tadaa-47995/
