@@ -1,12 +1,11 @@
 #### General Information and Disclaimer
-<small><small>This repository is linked with a scientific publication. The ACM Link, DOI and other information will be added here, after the paper is published. 
+This repository is linked with a scientific publication. The ACM Link, DOI and other information will be added here, after the paper is published. 
 
 Our work is published under GNU GPLv3. However, for some files, e.g., 3D figurines or the published paper, other licenses may apply. 
 This repository (or rather the releases of this repository) is mirrored on Zenodo.org. (Link will be added).
 
 If you use or extend our work, please cite us as (bibtex.bib):
 Will be added later.
-</small></small>
 
 ## BrailleBuddy
 
@@ -15,7 +14,7 @@ BrailleBuddy is a tangible user interface supporting children with visual impair
 ![BrailleBuddy](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy.jpg)
 
 ### Case and 3D-printed Cards
-We provide a *.svg file for the wooden case of BraillBuddy in "CaseModel(Lasercutter)". The lid is constructed from two layers of wood. Please be aware, that the files are designed for material with 3mm thickness for each of the layer of the lid and 5mm for the other parts. If you use other materials, you need to adjust the contact areas accordingly.
+We provide a *.svg file for the wooden case of BrailleBuddy in "CaseModel(Lasercutter)". The lid is constructed from two layers of wood. Please be aware, that the files are designed for material with 3mm thickness for each of the layers of the lid and 5mm for the other parts. If you use other materials, you need to adjust the contact areas accordingly.
 
 Further, we provide language specific 3D-models for all cards used. **Right now only the German version is populated, but the models can be used by changing the Braille text beneath the figurine.**
 The sources for the 3D figurines are listed next to each card. The 2D relief images were created by [Verena Pues](https://verenapues.com/).

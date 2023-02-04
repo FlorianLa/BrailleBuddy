@@ -1,0 +1,33 @@
+{
+    "creators": [
+        {
+            "orcid": "0000-0002-4582-5888",
+            "affiliation": "LMU Munich, Munich, Germany",
+            "name": "Lang, Florian"
+        },
+        {
+            "orcid": "0000-0002-0391-5922",
+            "affiliation": "LMU Munich, Munich, Germany",
+            "name": "Pues, Verena"
+        },
+        {
+            "orcid": "0000-0003-3890-1990",
+            "affiliation": "LMU Munich, Munich, Germany",
+            "name": "Schmidt, Albrecht"
+        },
+        {
+            "orcid": "0000-0001-9518-4364",
+            "affiliation": "TU Chemnitz, Chemnitz, Germany",
+            "name": "Machulla, Tonja-Katrin"
+        }
+
+    ],
+
+    "description" : "Here, we provide the 3D models, electric schematics, and source code for BrailleBuddy.",
+
+    "license": "GPL-3.0-only",
+
+    "title": "BrailleBuddy: A Tangible User Interface to Support Children with Visual Impairment in Learning Braille",
+
+    "keywords": ["Braille, Learning, Children, Blind, Visual Impairment, Low Vision, Tangible User Interface"]
+}
