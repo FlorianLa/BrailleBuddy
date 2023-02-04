@@ -1,3 +1,13 @@
+#### General Information and Disclaimer
+<small><small>This repository is linked with a scientific publication. The ACM Link, DOI and other information will be added here, after the paper is published. 
+
+Our work is published under GNU GPLv3. However, for some files, e.g., 3D figurines or the published paper, other licenses may apply. 
+This repository (or rather the releases of this repository) is mirrored on Zenodo.org. (Link will be added).
+
+If you use or extend our work, please cite us as (bibtex.bib):
+Will be added later.
+</small></small>
+
 ## BrailleBuddy
 
 BrailleBuddy is a tangible user interface supporting children with visual impairments in learning Braille. It was created using a human-centered inclusive design process with interviews, six design iterations with prototypes, and feedback from experts, students, and teachers. Alleviating the need for supervision, the device can be used during breaks in school or at home, providing additional opportunities to experience Braille and individual audio feedback to support the users in learning to read and spell Braille.
@@ -5,19 +15,19 @@ BrailleBuddy is a tangible user interface supporting children with visual impair
 ![BrailleBuddy](https://github.com/FlorianLa/BrailleBuddy/blob/main/Photos/BrailleBuddy.jpg)
 
 ### Case and 3D-printed Cards
-We provide a *.svg file for the wooden case of BraillBuddy in "CaseModel(Lasercutter)". The lid is constructed from two layers of wood. Please be aware, that the files are designed for material with 3mm thickness. If you use other materials you need to adjust the contact areas accordingly.
+We provide a *.svg file for the wooden case of BraillBuddy in "CaseModel(Lasercutter)". The lid is constructed from two layers of wood. Please be aware, that the files are designed for material with 3mm thickness for each of the layer of the lid and 5mm for the other parts. If you use other materials, you need to adjust the contact areas accordingly.
 
-Further, we provide language specific 3D-models for all cards used. **right now only the German version is populated, but the models can be used by changing the Braille text beneath the figurine.**
-The sources for the 3D figurines are listed next to each card.
+Further, we provide language specific 3D-models for all cards used. **Right now only the German version is populated, but the models can be used by changing the Braille text beneath the figurine.**
+The sources for the 3D figurines are listed next to each card. The 2D relief images were created by [Verena Pues](https://verenapues.com/).
 
 ### Supported Languages
 
 **German** - with Braille system "Vollbraille". This version was used in the study.
 
 **English** - with Braille system English Grade 2 Braille **(under construction)** 
-For the english version some points need to be completed, such as audio files and letter cards for abbreviations and English game and word cards.
+For the English version, some points need to be completed, such as audio files and letter cards for abbreviations and English game and word cards.
 
-To adjust the source code for the english version please comment out sections marked with GERMAN VERSION and comment in sections with ENGLISH VERSION
+To adjust the source code for the English version please comment out sections marked with GERMAN VERSION and comment in sections with ENGLISH VERSION
 
 ### Hardware
 
@@ -35,9 +45,9 @@ loudspeaker.
 
 ### Improvements
 We describe various possible improvements for BrailleBuddy in our paper. The most relevant possibilities are:
-* Add a headphone connector and an interface to cotrol the volume.
+* Add a headphone connector and an interface to control the volume.
 * Instead of reading the word, BrailleBuddy could also make corresponding sounds, e.g., a car or animal sounds.
-* Consider differently shaped cards to support users that find corectly rotating and playing the cards challenging.
+* Consider differently shaped cards to support users that find correctly rotating and placing the cards challenging.
 * Use separate storage areas for the letter cards or reduce the selection of cards presented to support children just starting to learn Braille.
 * The audio feedback can be improved by reacting to a button being pressed consecutively multiple times, long times in between cards placed, and multiple incorrectly placed cards. BrailleBuddy could give more diverse responses, e.g., "You placed the correct letter but in the wrong spot." or give hints towards the games solution.
 
@@ -82,7 +92,7 @@ We describe various possible improvements for BrailleBuddy in our paper. The mos
 
 ### Audio Files
 
-we used the following free text-to-speech converter to create most audio files: https://ttsmp3.com/.
+We used the following free text-to-speech converter to create most audio files: https://ttsmp3.com/.
 
 The sources of the sound effects used are:
 * wrong answer: https://pixabay.com/de/sound-effects/wrong-answer-126515/
