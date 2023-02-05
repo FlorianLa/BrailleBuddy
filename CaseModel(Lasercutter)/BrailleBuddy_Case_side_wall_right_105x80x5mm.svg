@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="105px" viewBox="0 0 80 105" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Shape</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="braillebuddy-case" transform="translate(-352.000000, -384.000000)" fill="#5D5D7F" fill-rule="nonzero">
+            <path d="M362,384 L352,384 L352,414 L357,414 L357,409 L362,409 L362,424 L357,424 L352,424 L352,484.01 C352.005,486.767 354.242,489 357,489 L357,484 L362,484 L372,484 L372,489 L382,489 L382,484 L392,484 L392,489 L402,489 L402,484 L412,484 L412,489 L426,489 L426,484 L432,484 L432,471 L426,471 L426,461 L432,461 L432,451 L426,451 L426,441 L432,441 L432,431 L426,431 L426,421 L432,421 L432,411 L426,411 L426,401 L432,401 L432,389 L426,389 L426,384 L412,384 L412,389 L402,389 L402,384 L392,384 L392,389 L382,389 L382,384 L372,384 L372,389 L362,389 L362,384 Z M379,395 L379,401 L368,401 L368,395 L379,395 Z" id="Shape"></path>
+        </g>
+    </g>
+</svg>
