@@ -1,5 +1,5 @@
 #### General Information and Disclaimer
-This repository is linked with a scientific publication, which you can find here (https://dl.acm.org/doi/10.1145/3544548.3580844). The HTML version of th article can be accessed here (https://dl.acm.org/doi/fullHtml/10.1145/3544548.3580844). The PDF is contained in this repository.
+This repository is linked with a scientific publication, which you can find here (https://dl.acm.org/doi/10.1145/3544548.3580844). The HTML version of the article can be accessed here (https://dl.acm.org/doi/fullHtml/10.1145/3544548.3580844). The PDF is contained in this repository.
 
 Our work is published under GNU GPLv3. However, for some files, e.g., 3D figurines or the published paper, other licenses may apply. 
 This repository (or rather the releases of this repository) is mirrored on Zenodo.org (https://doi.org/10.5281/zenodo.7606193).
