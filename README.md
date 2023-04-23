@@ -5,7 +5,8 @@ Our work is published under GNU GPLv3. However, for some files, e.g., 3D figurin
 This repository (or rather the releases of this repository) is mirrored on Zenodo.org (https://doi.org/10.5281/zenodo.7606193).
 
 If you use or extend our work, please cite us as (see bibtex_LangEtAl_BrailleBuddy.bib):
-Florian Lang, Verena Pues, Albrecht Schmidt, and Tonja-Katrin Machulla. 2023. BrailleBuddy: A Tangible User Interface to Support Children with Visual Impairment in Learning Braille. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems (CHI '23). Association for Computing Machinery, New York, NY, USA, Article 218, 1–14. https://doi.org/10.1145/3544548.3580844
+
+*Florian Lang, Verena Pues, Albrecht Schmidt, and Tonja-Katrin Machulla. 2023. BrailleBuddy: A Tangible User Interface to Support Children with Visual Impairment in Learning Braille. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems (CHI '23). Association for Computing Machinery, New York, NY, USA, Article 218, 1–14. https://doi.org/10.1145/3544548.3580844*
 
 ## BrailleBuddy
 
